@@ -1,0 +1,4 @@
+.row-hover:hover .row-hover-cell {
+  background-color: rgb(var(--accent) / 0.10);
+  transition: background 0.2s;
+}

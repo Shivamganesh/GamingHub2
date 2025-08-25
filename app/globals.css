@@ -1,0 +1,118 @@
+@import '../styles/leaderboard-row-hover.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Default (Dark Mode) */
+  :root {
+    --primary-bg: #1a1a1a;
+    --secondary-bg: #282828;
+    --text-main: #ffffff;
+    --text-sub: #a0a0a0;
+    --accent-main: #00ff99;
+    --accent-hover: #00e676;
+
+    /* Shadcn/ui default dark mode variables */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --ring: 217.2 32.6% 17.5%;
+    --radius: 0.5rem;
+  }
+
+  /* Light Mode */
+  .light {
+    --primary-bg: #f0f0f0;
+    --secondary-bg: #ffffff;
+    --text-main: #1a1a1a;
+    --text-sub: #555555;
+    --accent-main: #00b87a;
+    --accent-hover: #00a36b;
+
+    /* Shadcn/ui default light mode variables */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --ring: 222.2 47.4% 11.2%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    /* Use custom CSS variables for main background and text */
+    background-color: var(--primary-bg);
+    color: var(--text-main);
+    font-family: var(--font-inter);
+    overflow-x: hidden;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-anton);
+}
+
+/* Custom utility for accent button */
+.btn-accent {
+  background-color: var(--accent-main);
+  color: var(--primary-bg); /* Dark text on vibrant button */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-accent:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.btn-accent:active {
+  transform: translateY(0);
+}
+
+/* Custom utility for card hover effect */
+.card-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 255, 153, 0.2); /* Subtle glow using accent color */
+}
