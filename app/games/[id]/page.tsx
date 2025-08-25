@@ -1,17 +1,10 @@
-"use client"
-
-import React from "react"
-import { useRouter } from "next/navigation"
-import { supabase } from "../../../lib/supabaseClient"
-
 import { motion } from "framer-motion"
-import { useUser } from "../../../hooks/useUser"
 import { GameRating, GameReviewSection } from "@/components/game-reviews"
 import Image from "next/image"
-import { ArrowLeft, Play, Star } from "lucide-react" // Import Star icon
+import { ArrowLeft, Play } from "lucide-react"
 import Link from "next/link"
-import LeaderboardSection from "@/components/leaderboard-section" // Import LeaderboardSection
-import { cn } from "@/lib/utils" // Import cn for conditional class names
+import LeaderboardSection from "@/components/leaderboard-section"
+import { cn } from "@/lib/utils"
 
 interface GamePageProps {
   params: { id: string }
@@ -165,10 +158,8 @@ Every decision matters in this unforgiving survival horror. Manage your resource
   },
 }
 
-const IndividualGamePage = ({ params }: GamePageProps) => {
-  const { user, username, loading } = useUser();
+export default async function IndividualGamePage({ params }: GamePageProps) {
   const { id } = params;
-  // The rest of the logic (auth, etc.) should be handled in client components or middleware for best practice
   const game = gameDetailsData[id as keyof typeof gameDetailsData];
 
 
@@ -223,54 +214,6 @@ const IndividualGamePage = ({ params }: GamePageProps) => {
           />
   </motion.div>
 
-        {/* Play Now Button (opens game in new tab and sends user info) */}
-        <motion.div
-          className="w-full block"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <button
-            className="w-full px-8 py-4 rounded-full btn-accent text-xl mb-12"
-            type="button"
-            disabled={loading}
-            onClick={() => {
-              // Use real user info from useUser
-              const userId = user?.id || 'guest';
-              const userName = username || 'Guest';
-              const userEmail = user?.email || '';
-              // Map game id to real game URL
-              const gameUrls = {
-                '1': 'https://jumping-ball-runner-one.vercel.app/',
-                '2': 'https://your-game-url.com/galactic-defender',
-                '3': 'https://your-game-url.com/fantasy-quest',
-                '4': 'https://your-game-url.com/pixel-dungeon',
-                '5': 'https://your-game-url.com/space-explorer',
-                '6': 'https://your-game-url.com/zombie-apocalypse',
-              };
-              const url = gameUrls[id as keyof typeof gameUrls];
-              if (!url) return;
-              const gameWindow = window.open(url, '_blank');
-              if (!gameWindow) return;
-              setTimeout(() => {
-                gameWindow.postMessage(
-                  {
-                    type: 'USER_INFO',
-                    user: {
-                      id: userId,
-                      username: userName,
-                      email: userEmail,
-                    },
-                  },
-                  '*'
-                );
-              }, 1000);
-            }}
-          >
-            <Play className="w-6 h-6 mr-2 inline-block" /> Play Now
-          </button>
-        </motion.div>
-
         {/* Description Section */}
         <motion.div
           className="bg-dark-bg-secondary p-6 rounded-xl border border-dark-bg-primary shadow-lg mb-8"
@@ -296,7 +239,6 @@ const IndividualGamePage = ({ params }: GamePageProps) => {
           </div>
           <p className="text-text-secondary font-inter leading-relaxed whitespace-pre-line mt-4">{game.description}</p>
 
-        
         </motion.div>
 
         {/* Features Section */}
@@ -330,8 +272,6 @@ const IndividualGamePage = ({ params }: GamePageProps) => {
             ))}
           </ul>
         </motion.div>
-
-        
 
         {/* Leaderboard Section for this specific game */}
         <motion.div
@@ -371,5 +311,3 @@ const IndividualGamePage = ({ params }: GamePageProps) => {
     </div>
   )
 }
-
-export default IndividualGamePage
