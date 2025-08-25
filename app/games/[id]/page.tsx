@@ -149,8 +149,8 @@ Every decision matters in this unforgiving survival horror. Manage your resource
   },
 }
 
-export default function IndividualGamePage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function IndividualGamePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const game = gameDetailsData[id as keyof typeof gameDetailsData];
 
   if (!game) {
