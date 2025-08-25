@@ -7,6 +7,7 @@ import { ArrowLeft, Play } from "lucide-react";
 import Link from "next/link";
 import LeaderboardSection from "@/components/leaderboard-section";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/hooks/useUser";
 
 interface GameClientProps {
   game: any;
@@ -14,6 +15,8 @@ interface GameClientProps {
 }
 
 export default function GameClient({ game, id }: GameClientProps) {
+  const { user, username } = useUser();
+
   return (
     <div className="min-h-screen py-20 px-4 md:px-8 lg:px-16 bg-dark-bg-primary">
       <motion.div
@@ -54,6 +57,48 @@ export default function GameClient({ game, id }: GameClientProps) {
             placeholder="blur"
             blurDataURL="/placeholder.svg?height=48&width=48"
           />
+        </motion.div>
+
+        {/* Play Now Button (opens game in new tab and sends user info) */}
+        <motion.div
+          className="w-full block"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <button
+            className="w-full px-8 py-4 rounded-full btn-accent text-xl mb-12"
+            type="button"
+            onClick={() => {
+              const gameUrls = {
+                '1': 'https://jumping-ball-runner-one.vercel.app/',
+                '2': 'https://your-game-url.com/galactic-defender',
+                '3': 'https://your-game-url.com/fantasy-quest',
+                '4': 'https://your-game-url.com/pixel-dungeon',
+                '5': 'https://your-game-url.com/space-explorer',
+                '6': 'https://your-game-url.com/zombie-apocalypse',
+              };
+              const url = gameUrls[id as keyof typeof gameUrls];
+              if (!url) return;
+              const gameWindow = window.open(url, '_blank');
+              if (!gameWindow) return;
+              setTimeout(() => {
+                gameWindow.postMessage(
+                  {
+                    type: 'USER_INFO',
+                    user: {
+                      id: user?.id || 'guest',
+                      username: username || 'Guest',
+                      email: user?.email || '',
+                    },
+                  },
+                  '*'
+                );
+              }, 1000);
+            }}
+          >
+            <Play className="w-6 h-6 mr-2 inline-block" /> Play Now
+          </button>
         </motion.div>
 
         {/* Description Section */}
